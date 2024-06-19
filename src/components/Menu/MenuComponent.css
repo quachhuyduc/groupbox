@@ -1,0 +1,24 @@
+.menu-title {
+    font-weight: bold;
+    color: black;
+
+}
+
+.menu-card {
+    width: 256px;
+    border-radius: 8px;
+    /* Adjust this value to change the roundness */
+    overflow: hidden;
+    /* Ensures children are clipped to the rounded corners */
+}
+
+.menu-item-image {
+    width: 30px;
+    /* Adjust size as needed */
+    height: 30px;
+    /* Adjust size as needed */
+    margin-right: 8px;
+    /* Adjust space between image and text */
+    vertical-align: middle;
+    /* Align image with text */
+}

@@ -1,0 +1,22 @@
+.home-page-container {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 150px;
+    margin-top: 20px;
+}
+
+.home-page-container>* {
+    margin: 10px;
+}
+
+/* Ẩn thanh cuộn trên Firefox */
+.hidden-scrollbar {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Ẩn thanh cuộn trên Webkit (Chrome, Safari) */
+.hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Webkit */
+}
