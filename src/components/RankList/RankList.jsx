@@ -1,40 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, List } from 'antd';
-const data = [
-    {
-        title: 'Ant Design Title 1',
-    },
-    {
-        title: 'Ant Design Title 2',
-    },
-    {
-        title: 'Ant Design Title 3',
-    },
-    {
-        title: 'Ant Design Title 4',
-    },
-    {
-        title: 'Ant Design Title 5',
-    },
-];
+import { getUserList } from '../../api/api.js'; // Giả sử bạn có một hàm API để lấy tất cả người dùng
+
 const RankList = () => {
-    const [position] = useState('bottom');
-    const [align] = useState('center');
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        // Lấy dữ liệu người dùng từ API
+        const fetchUsers = async () => {
+            try {
+                const response = await getUserList();
+                const usersData = response.data; // Lấy mảng người dùng từ dữ liệu phản hồi
+
+                setUsers(usersData);
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu người dùng:', error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
     return (
         <>
             <List
-                pagination={{
-                    position,
-                    align,
-                    pageSize: 4,
-                }}
-                dataSource={data}
-                renderItem={(item, index) => (
+                dataSource={users}
+                renderItem={(user, index) => (
                     <List.Item>
                         <List.Item.Meta
-                            avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                            title={<a href="https://ant.design">{item.title}</a>}
-                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                            avatar={<Avatar src={`http://localhost:5000/${user.avatarUrl}`} />} // Đường dẫn đến avatar từ API
+                            title={`Tên: ${user?.name}`}
+                            description={`Điểm Ngày: ${user?.pointday}`}
                         />
                     </List.Item>
                 )}
@@ -42,4 +38,5 @@ const RankList = () => {
         </>
     );
 };
+
 export default RankList;

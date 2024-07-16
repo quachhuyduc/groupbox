@@ -1,104 +1,63 @@
+// MenuComponent.js
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import './MenuComponent.css'; // Nhập tệp CSS
 
 const items = [
     {
         key: 'sub1',
-        label: 'Navigation One',
-        icon: <MailOutlined />,
+        label: 'Menu',
+        icon: <MenuOutlined />,
         children: [
             {
                 key: 'g1',
                 type: 'group',
                 children: [
-                    {
-                        key: '1',
-                        label: 'Option 1',
-                    },
-                    {
-                        key: '2',
-                        label: 'Option 2',
-                    },
-                    {
-                        key: '3',
-                        label: 'Option 3',
-                    },
-                    {
-                        key: '4',
-                        label: 'Option 4',
-                    },
+                    { key: '1', label: 'Nhiệm vụ hôm nay' },
+                    { key: '7', label: 'Nhóm của tôi' },
+                    { key: '2', label: 'Bảng Xếp Hạng' },
+                    { key: '3', label: 'Khám Phá' },
+                    { key: '4', label: 'Profile' },
+                    { key: '5', label: 'Cài đặt' },
+                    { key: '6', label: 'Đăng xuất' },
                 ],
-            },
-        ],
-    },
-    {
-        key: 'sub2',
-        label: 'Navigation Two',
-        icon: <AppstoreOutlined />,
-        children: [
-            {
-                key: '5',
-                label: 'Option 5',
-            },
-            {
-                key: '6',
-                label: 'Option 6',
-            },
-            {
-                key: '7',
-                label: 'Option 7',
-            },
-            {
-                key: '8',
-                label: 'Option 8',
-            },
-
-
-        ],
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: 'sub4',
-        label: 'Cài Đặt',
-        icon: <SettingOutlined />,
-        children: [
-            {
-                key: '9',
-                label: 'Option 9',
-            },
-            {
-                key: '10',
-                label: 'Option 10',
-            },
-            {
-                key: '11',
-                label: 'Option 11',
-            },
-            {
-                key: '12',
-                label: 'Option 12',
             },
         ],
     },
 ];
 
 const MenuComponent = ({ mode }) => {
+    const navigate = useNavigate();
+
     const onClick = (e) => {
         console.log('click ', e);
+        if (e.key === '1') {
+            navigate('/homepage');
+        }
+        if (e.key === '4') {
+            const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+            navigate(`/profile/${userId}`);
+        }
+        if (e.key === '2') {
+            navigate('/ranklist');
+        }
+        if (e.key === '3') {
+            navigate('/search');
+        }
+        // Add more conditions for other keys if needed
     };
+
     return (
         <Menu
             onClick={onClick}
-            style={{
-                width: mode === 'horizontal' ? '100%' : 256,
-            }}
+            style={{ width: mode === 'horizontal' ? '100%' : 256 }}
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode={mode}
             items={items}
+            className="custom-menu" // Áp dụng lớp CSS tuỳ chỉnh
         />
     );
 };

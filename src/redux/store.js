@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slides/counterSlice'
+import taskReducer from './slides/taskSlice'
+import pointsReducer from './slides/pointSlice';
+import userReducer from './slides/userSlice';
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
+        tasks: taskReducer,
+        points: pointsReducer,
+        user: userReducer,
     },
 })

@@ -3,6 +3,7 @@ import { Form, Input, Button, Typography, Layout, Divider } from 'antd';
 import { CloseOutlined, FacebookFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css'; // Đường dẫn tới file CSS của bạn
+import axios from 'axios';
 
 const { Title } = Typography;
 const { Header, Content } = Layout;
@@ -10,8 +11,15 @@ const { Header, Content } = Layout;
 const RegisterPage = () => {
     const navigate = useNavigate();
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async (values) => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/user/register', values);
+            console.log('Đăng ký thành công:', response.data);
+            // Xử lý sau khi đăng ký thành công, ví dụ chuyển hướng trang
+        } catch (error) {
+            console.error('Lỗi khi đăng ký:', error);
+            // Xử lý lỗi, ví dụ hiển thị thông báo cho người dùng
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -38,24 +46,25 @@ const RegisterPage = () => {
                 <div className="App">
                     <Title level={2} className="register-title">Đăng ký</Title>
                     <Form
-                        name="login"
-                        className="login-form"
+                        name="register"
+                        className="register-form"
                         initialValues={{ remember: true }}
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
-                            name="username"
+                            name="age"
+                            rules={[{ required: true, message: 'Vui lòng nhập Tuổi!' }]}
                         >
                             <Input placeholder="Tuổi" />
                         </Form.Item>
                         <Form.Item
-                            name="username"
+                            name="name"
                         >
                             <Input placeholder="Tên (Tùy Chọn)" />
                         </Form.Item>
                         <Form.Item
-                            name="username"
+                            name="email"
                             rules={[{ required: true, message: 'Vui lòng nhập Email hoặc số điện thoại!' }]}
                         >
                             <Input placeholder="Email hoặc số điện thoại" />
@@ -65,16 +74,12 @@ const RegisterPage = () => {
                             name="password"
                             rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
                         >
-                            <Input.Password
-                                placeholder="Mật khẩu"
-
-                                className="input-large"
-                            />
+                            <Input.Password placeholder="Mật khẩu" />
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button">
-                                Đăng nhập
+                            <Button type="primary" htmlType="submit" className="register-form-button">
+                                Đăng ký
                             </Button>
                         </Form.Item>
                     </Form>
@@ -83,8 +88,6 @@ const RegisterPage = () => {
                     <Button type="primary" className="social-button facebook-button" icon={<FacebookFilled />}>
                         Facebook
                     </Button>
-
-
                 </div>
             </Content>
         </Layout>

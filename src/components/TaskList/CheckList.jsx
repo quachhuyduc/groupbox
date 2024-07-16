@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
+// src/components/TaskList/CheckList.js
+import React from 'react';
 import { CheckOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleTaskCompletion } from '../../redux/slides/taskSlice';
 
-const CheckList = () => {
-    const [completed, setCompleted] = useState(false);
+const CheckList = ({ taskId }) => {
+    const dispatch = useDispatch();
+    const completed = useSelector(state => state.tasks.tasks.find(task => task.id === taskId).completed);
 
     const toggleCompletion = () => {
-        setCompleted(!completed);
+        dispatch(toggleTaskCompletion(taskId));
     };
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-
-            <div
-                onClick={toggleCompletion}
-                style={{
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%', // Đảm bảo hình tròn
-                    border: '2px solid #ccc', // Viền cho checkbox
-                    display: 'flex',
-                    justifyContent: 'center', // Căn giữa theo chiều ngang
-                    alignItems: 'center', // Căn giữa theo chiều dọc
-                    cursor: 'pointer',
-                    marginLeft: '10px',
-                    backgroundColor: completed ? '#58CC02' : 'transparent', // Màu nền khi được chọn
-                }}
-            >
-                {completed && <CheckOutlined style={{ fontSize: '18px', color: '#fff' }} />} {/* Icon tick */}
-            </div>
+        <div
+            onClick={toggleCompletion}
+            style={{
+                width: '30px',
+                height: '30px',
+                borderRadius: '50%',
+                border: '2px solid #ccc',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                marginLeft: '10px',
+                backgroundColor: completed ? '#58CC02' : 'transparent',
+            }}
+        >
+            {completed && <CheckOutlined style={{ fontSize: '18px', color: '#fff' }} />}
         </div>
     );
 };

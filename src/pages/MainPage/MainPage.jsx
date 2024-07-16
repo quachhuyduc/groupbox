@@ -13,34 +13,25 @@ const MainPage = () => {
     const handleLoginClick = () => {
         navigate('/login');
     };
+    const handleRegisterClick = () => {
+        navigate('/register');
+    };
 
     return (
         <Layout className="login-page">
             <Header className="header">
-                <div className="logo">
-                    {/* <img src={logo} alt="Logo" /> */}
-                </div>
-                {/* <Menu theme="dark" mode="horizontal" style={{ float: 'right' }}>
-                    <Menu.Item key="language">
-                        <Select defaultValue="en" style={{ width: 120 }}>
-                            <Option value="en">English</Option>
-                            <Option value="vi">Tiếng Việt</Option>
-                        </Select>
-                    </Menu.Item>
-                </Menu> */}
             </Header>
-
             <Content className="content">
                 <div className="hero-section">
-                    <span className="animated-heading">Welcome to Social Group</span>
+                    <span className="animated-heading">Welcome to English Learning Social Network</span>
                 </div>
                 <Row className="form-login">
                     <Col span={12}>
-                        <span className="animated-formlogin">Đăng ký ngay để trải nghiệm nhiều điều thú vị với Social Group!!</span>
+                        <span className="animated-formlogin">Đăng ký ngay để trải nghiệm nhiều điều thú vị với English Learning Social Network!!</span>
                     </Col>
                     <Col span={12}>
                         <div style={{ marginBottom: '20px' }}>
-                            <Button type="primary" size="large" style={{ marginRight: '10px', width: '70%', height: '50px' }}>Đăng ký ngay</Button>
+                            <Button type="primary" size="large" style={{ marginRight: '10px', width: '70%', height: '50px' }} onClick={handleRegisterClick}>Đăng ký ngay</Button>
                         </div>
                         <div>
                             <Button size="large" style={{ marginRight: '10px', width: '70%', height: '50px' }} onClick={handleLoginClick}>Tôi đã có tài khoản</Button>

@@ -1,24 +1,15 @@
-.menu-title {
-    font-weight: bold;
-    color: black;
+/* styles.css */
+/* .custom-menu {
+    border: 2px solid #000;
+} */
 
+.custom-menu .ant-menu-item,
+.custom-menu .ant-menu-submenu-title {
+    margin: 15px 0;
+    /* Tăng khoảng cách giữa các item */
 }
 
-.menu-card {
-    width: 256px;
-    border-radius: 8px;
-    /* Adjust this value to change the roundness */
-    overflow: hidden;
-    /* Ensures children are clipped to the rounded corners */
-}
-
-.menu-item-image {
-    width: 30px;
-    /* Adjust size as needed */
-    height: 30px;
-    /* Adjust size as needed */
-    margin-right: 8px;
-    /* Adjust space between image and text */
-    vertical-align: middle;
-    /* Align image with text */
+.custom-menu .ant-menu-item::after {
+    border-bottom: none;
+    /* Loại bỏ đường gạch chân mặc định */
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form, Input, Button, Typography, Layout, Divider } from 'antd';
+import { Form, Input, Button, Typography, Layout, Divider, message } from 'antd';
 import { CloseOutlined, FacebookFilled, GoogleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css'; // Đường dẫn tới file CSS của bạn
+import { loginUser } from '../../api/api';
 
 const { Title } = Typography;
 const { Header, Content } = Layout;
@@ -10,9 +11,20 @@ const { Header, Content } = Layout;
 const LoginPage = () => {
     const navigate = useNavigate();
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        navigate('/homepage');
+    const onFinish = async (values) => {
+        try {
+            const response = await loginUser(values.email, values.password);
+            if (response.status === 'OK') {
+                console.log("responsee", response.data._id);
+                message.success('Đăng nhập thành công');
+                localStorage.setItem('userId', response.data._id);
+                navigate('/homepage');
+            } else {
+                message.error(response.message);
+            }
+        } catch (error) {
+            message.error('Đăng nhập thất bại');
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -46,7 +58,7 @@ const LoginPage = () => {
                         onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
-                            name="username"
+                            name="email"
                             rules={[{ required: true, message: 'Vui lòng nhập Email hoặc số điện thoại!' }]}
                         >
                             <Input placeholder="Email hoặc số điện thoại" />
