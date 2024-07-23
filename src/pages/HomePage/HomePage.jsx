@@ -14,21 +14,11 @@ const HomePage = () => {
 
     return (
         <div className="home-page-container">
-            <MenuComponent mode="inline" />
+            <MenuComponent mode="inline" selectedKey="1" />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Card style={{ backgroundColor: "rgb(88, 204, 2)", width: '700px', marginLeft: "100px", marginTop: '20px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ fontSize: '22px', fontWeight: "700", color: "white", textAlign: 'center', flex: 1 }}>Nhiệm vụ hôm nay</div>
-                    </div>
-                </Card>
-                <Card style={{ backgroundColor: "rgb(88, 204, 2)", width: '700px', marginLeft: "100px", marginTop: '20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
-                        <div style={{ fontSize: '22px', fontWeight: "700", color: "white", textAlign: 'center', flex: 1 }}>
-                            Đã hoàn thành 3/10 nhiệm vụ
-                        </div>
-                    </div>
-                    <div style={{ fontSize: '18px', color: "white", textAlign: 'center', marginTop: '10px' }}>
-                        Số điểm kiếm được :30 điểm
                     </div>
                 </Card>
 

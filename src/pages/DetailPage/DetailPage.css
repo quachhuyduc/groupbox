@@ -1,0 +1,28 @@
+/* styles.css */
+.card-container {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.card-container.visible {
+    opacity: 2;
+    transform: translateY(0);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 0;
+    opacity: 0;
+    transition: height 0.5s ease-out, opacity 0.5s ease-out;
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.button-container.slideDown {
+    height: 60px;
+    /* Chiều cao của button */
+    opacity: 1;
+}

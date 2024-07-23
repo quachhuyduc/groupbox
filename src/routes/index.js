@@ -11,6 +11,9 @@ import DetailPageVideo from '../pages/DetailPage/DetailPageVideo';
 import RankListPage from '../pages/RankListPage/RankListPage';
 import SearchPage from '../pages/SearchPage/SearchPage';
 import DetailTaskPage from '../pages/DetailPage/DetailTaskPage';
+import GroupPage from '../pages/GroupPage/GroupPage';
+import DetailTaskDoPage from '../pages/DetailPage/DetailTaskDoPage';
+import SearchUser from '../pages/SearchPage/SearchUser';
 
 const userId = localStorage.getItem('userId')
 
@@ -47,7 +50,7 @@ const routes = [
     },
     {
 
-        path: `/profile/${userId}`,
+        path: '/profile/:userId',
         page: ProfilePage
     },
     {
@@ -57,6 +60,18 @@ const routes = [
     {
         path: '/detail/task/:taskId',
         page: DetailTaskPage
+    },
+    {
+        path: '/detail/dotask/:taskId',
+        page: DetailTaskDoPage
+    },
+    {
+        path: '/search/user',
+        page: SearchUser
+    },
+    {
+        path: '/group/:groupId',
+        page: GroupPage
     },
     {
         path: '/search',

@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Card, Row, Col, Modal } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Input, Card, List, message } from 'antd';
 import MenuComponent from '../../components/Menu/MenuComponent';
-import { getTaskList, getTaskDetail, getTaskById } from '../../api/api'; // Import hàm getTaskDetail từ API
+import { getTaskList, getTaskById, searchTask } from '../../api/api';
 
 const { Search } = Input;
 
 const SearchPage = () => {
-    // const { taskId } = useParams();
+    const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
-    const [selectedTask, setSelectedTask] = useState(null); // State để lưu trữ thông tin chi tiết nhiệm vụ
-    // State để quản lý trạng thái loading khi gọi API
+    const [initialTasks, setInitialTasks] = useState([]); // Danh sách ban đầu
+    const [searchValue, setSearchValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchTasks = async () => {
             try {
+                setLoading(true);
                 const response = await getTaskList();
-                const tasksData = response.data; // Lấy mảng tasks từ dữ liệu phản hồi
+                const tasksData = response.data;
                 setTasks(tasksData);
+                setInitialTasks(tasksData); // Lưu danh sách ban đầu
+                setLoading(false);
             } catch (error) {
+                setLoading(false);
                 console.error('Lỗi khi lấy dữ liệu tasks:', error);
             }
         };
@@ -25,66 +32,85 @@ const SearchPage = () => {
         fetchTasks();
     }, []);
 
-    const onSearch = value => console.log(value);
+    const onSearch = async value => {
+        setSearchValue(value);
+        if (value.trim() === '') {
+            setSuggestions([]);
+            setTasks(initialTasks); // Khôi phục danh sách ban đầu khi xóa chữ cái
+            return;
+        }
+        // Tự động gợi ý khi gõ từng chữ
+        const filteredTasks = initialTasks.filter(task =>
+            task.nameTask.toLowerCase().startsWith(value.toLowerCase())
+        );
+        setSuggestions(filteredTasks);
+    };
 
-    // Xử lý khi click vào Card để lấy thông tin chi tiết nhiệm vụ
-    const handleCardClick = async taskId => {
+    const handleSearchButtonClick = async () => {
+        if (searchValue.trim() === '') {
+            message.warning('Vui lòng nhập từ khóa tìm kiếm.');
+            return;
+        }
         try {
-            const response = await getTaskById(taskId); // Gọi API để lấy chi tiết nhiệm vụ dựa trên taskId
+            setLoading(true);
+            const response = await searchTask(searchValue); // Gọi hàm searchTask từ api.js
+            const filteredTasks = response.data;
+            setTasks(filteredTasks); // Cập nhật danh sách nhiệm vụ từ kết quả tìm kiếm
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error('Lỗi khi tìm kiếm nhiệm vụ:', error);
+        }
+    };
+
+    const handleCardClick = async (taskId) => {
+        try {
+            const response = await getTaskById(taskId);
             const taskDetail = response.data;
-            console.log("taskdetail", response.data);// Lấy dữ liệu chi tiết nhiệm vụ từ phản hồi
-            setSelectedTask(taskDetail); // Lưu thông tin chi tiết nhiệm vụ vào state để hiển thị
+            navigate(`/detail/task/${taskDetail.data._id}`);
         } catch (error) {
             console.error('Lỗi khi lấy chi tiết nhiệm vụ:', error);
         }
     };
 
-    // Render danh sách nhiệm vụ
-    const renderTasks = () => {
-        return tasks.map(task => (
-            <Card
-                key={task._id} // Sử dụng _id của task làm key (giả sử _id là trường định danh duy nhất trong dữ liệu task)
-                style={{ margin: '16px 0', border: '1px solid #e8e8e8', cursor: 'pointer' }}
-                onClick={() => handleCardClick(task._id)} // Xử lý khi click vào Card
-            >
-                <h3 style={{ marginBottom: '12px' }}>{task.nameTask}</h3>
-            </Card>
-        ));
-    };
-
     return (
         <div className="home-page-container" style={{ display: 'flex' }}>
-            <MenuComponent mode="inline" />
+            <MenuComponent mode="inline" selectedKey="3" />
             <div style={{ flex: 1, padding: '20px' }}>
                 <Search
                     placeholder="Nhập từ khóa tìm kiếm"
                     allowClear
                     enterButton="Tìm kiếm"
                     size="large"
-                    onSearch={onSearch}
+                    value={searchValue}
+                    onChange={e => onSearch(e.target.value)}
+                    onSearch={handleSearchButtonClick} // Xử lý khi nhấn nút Tìm kiếm
                     style={{ width: '80%' }}
                 />
                 <h2>Danh sách nhiệm vụ</h2>
-                {tasks.length === 0 && <div>Loading...</div>}
-                {renderTasks()}
-                {/* Modal hiển thị thông tin chi tiết nhiệm vụ */}
-                <Modal
-                    title={selectedTask ? selectedTask.nameTask : 'Chi tiết nhiệm vụ'}
-                    visible={selectedTask !== null}
-                    onCancel={() => setSelectedTask(null)}
-                    footer={null}
-                >
-                    {selectedTask && (
-                        <div>
-                            <p>Level: {selectedTask.level}</p>
-                            <p>Total Points: {selectedTask.totalPoints}</p>
-                            <p>Detail: {selectedTask.detail}</p>
-                        </div>
-                    )}
-                </Modal>
+                {loading && <div>Loading...</div>}
+                {tasks.length > 0 && (
+                    <List
+                        style={{ width: '80%' }}
+                        dataSource={searchValue ? suggestions : tasks}
+                        renderItem={task => (
+                            <List.Item onClick={() => handleCardClick(task._id)}>
+                                <Card style={{ width: '100%', cursor: 'pointer', border: '2px solid #58CC02' }}>
+                                    <h3>{task.nameTask}</h3>
+                                </Card>
+                            </List.Item>
+                        )}
+                    />
+                )}
+                {!loading && tasks.length === 0 && (
+                    <div>Không có dữ liệu nhiệm vụ.</div>
+                )}
+                {!loading && searchValue && suggestions.length === 0 && (
+                    <div>Không có kết quả tìm kiếm phù hợp.</div>
+                )}
             </div>
         </div>
     );
-}
+};
 
 export default SearchPage;

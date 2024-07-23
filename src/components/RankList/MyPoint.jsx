@@ -1,26 +1,30 @@
+import { useSelector } from 'react-redux';
+import { Avatar } from 'antd';
+import React, { useEffect } from 'react';
+const MyPoint = ({ user, rank }) => {
+    const points = useSelector(state => state.points.points); // Tổng điểm từ Redux
 
-import { Avatar, List } from 'antd';
-const data = [
-    {
-        title: 'Ant Design Title 1',
-    },
-];
-const MyPoint = () => {
+    console.log('Total Points in MyPoint:', points); // Log tổng điểm
+
+
+    if (!user) {
+        return <div>Đang tải...</div>;
+    }
+
     return (
-        <>
-            <List
-                dataSource={data}
-                renderItem={(item, index) => (
-                    <List.Item>
-                        <List.Item.Meta
-                            avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                            title={<a href="https://ant.design">{item.title}</a>}
-                            description="200 Điểm"
-                        />
-                    </List.Item>
-                )}
-            />
-        </>
+        <div>
+            <div style={{ display: 'flex' }}>
+                <Avatar src={`http://localhost:5000/${user.avatarUrl}`} size={64} />
+                <div style={{ marginLeft: 16, alignItems: 'center' }}>
+                    <h2>{user.name}</h2>
+                    <p>Tổng Điểm: {user.pointday}</p> {/* Hiển thị tổng điểm */}
+                </div>
+                <div style={{ marginLeft: 'auto' }}>
+                    <h2>Rank: {rank}</h2>
+                </div>
+            </div>
+        </div>
     );
 };
+
 export default MyPoint;

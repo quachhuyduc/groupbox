@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Typography, Layout, Divider } from 'antd';
+import { Form, Input, Button, Typography, Layout, Divider, message } from 'antd';
 import { CloseOutlined, FacebookFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css'; // Đường dẫn tới file CSS của bạn
@@ -14,7 +14,7 @@ const RegisterPage = () => {
     const onFinish = async (values) => {
         try {
             const response = await axios.post('http://localhost:5000/api/user/register', values);
-            console.log('Đăng ký thành công:', response.data);
+            message.success('Đăng ký thành công');
             // Xử lý sau khi đăng ký thành công, ví dụ chuyển hướng trang
         } catch (error) {
             console.error('Lỗi khi đăng ký:', error);

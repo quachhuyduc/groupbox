@@ -8,14 +8,14 @@ const IconText = ({ icon, text }) => (
     </span>
 );
 
-const ReadBookList = ({ comments }) => (
+const CommentList = ({ comments }) => (
     <List
         itemLayout="vertical"
         size="large"
         dataSource={comments}
         renderItem={(item) => (
             <List.Item
-                key={item.title}
+                key={item._id}
                 actions={[
                     <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
                     <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
@@ -23,21 +23,33 @@ const ReadBookList = ({ comments }) => (
                 ]}
             >
                 <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={<a href='/'>{item.title}</a>}
-                    description={item.userName}
+                    avatar={
+                        item.user && item.user.avatarUrl ? (
+                            <Avatar src={`http://localhost:5000/${item.user.avatarUrl}`} />
+                        ) : (
+                            <Avatar />
+                        )
+                    }
+                    title={
+                        item.user && item.user.name ? (
+                            <a href='/'>{item.user.name}</a>
+                        ) : (
+                            <a href='/'>Anonymous</a>
+                        )
+                    }
+                    description={`Posted on ${new Date(item.createdAt).toLocaleString()}`}
                 />
                 <div>{item.content}</div>
                 {item.files && item.files.length > 0 && (
                     <div>
-                        {item.files.map(file => (
-                            <div key={file.uid} style={{ marginTop: '10px' }}>
+                        {item.files.map((file, index) => (
+                            <div key={index} style={{ marginTop: '10px' }}>
                                 {file.type.startsWith('image') && (
-                                    <img src={URL.createObjectURL(file.originFileObj)} alt={file.name} style={{ width: '100px' }} />
+                                    <img src={URL.createObjectURL(file)} alt={`file-${index}`} style={{ width: '100px' }} />
                                 )}
                                 {file.type.startsWith('video') && (
                                     <video controls style={{ width: '100px' }}>
-                                        <source src={URL.createObjectURL(file.originFileObj)} type={file.type} />
+                                        <source src={URL.createObjectURL(file)} type={file.type} />
                                     </video>
                                 )}
                             </div>
@@ -54,4 +66,4 @@ const ReadBookList = ({ comments }) => (
     />
 );
 
-export default ReadBookList;
+export default CommentList;

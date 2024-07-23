@@ -2,14 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    tasks: [
-        { id: 1, title: 'Tóm tắt chương 2', completed: false, avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1', content: 'Content for task 1' },
-        { id: 2, title: 'Nghe nhạc và làm nhiệm vụ', completed: false, avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=2', content: 'Content for task 2' },
-        { id: 3, title: 'Xem đoạn video và làm nhiệm vụ', completed: false, avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=3', content: 'Content for task 3' }
-    ],
+    tasks: [],
     completedCount: 0
 };
-
 
 const taskSlice = createSlice({
     name: 'tasks',
@@ -21,10 +16,20 @@ const taskSlice = createSlice({
                 task.completed = !task.completed;
                 state.completedCount = state.tasks.filter(task => task.completed).length;
             }
+        },
+        setTasks: (state, action) => {
+            console.log("Setting tasks:", action.payload); // Debug log
+            state.tasks = action.payload;
+        },
+        addTask: (state, action) => {
+            const newTask = action.payload;
+            if (!state.tasks.find(task => task.id === newTask.id)) {
+                state.tasks.push(newTask);
+            }
         }
     }
 });
 
-export const { toggleTaskCompletion } = taskSlice.actions;
+export const { toggleTaskCompletion, setTasks, addTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

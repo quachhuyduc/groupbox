@@ -1,15 +1,28 @@
-/* styles.css */
-/* .custom-menu {
-    border: 2px solid #000;
-} */
+/* MenuComponent.css */
 
-.custom-menu .ant-menu-item,
-.custom-menu .ant-menu-submenu-title {
+/* Đảm bảo rằng các mục trong menu được highlight khi được chọn */
+.custom-menu .ant-menu-item.ant-menu-item-selected {
+    background-color: #1890ff !important;
+    /* Màu nền của mục được chọn */
+    color: #fff !important;
+    /* Màu chữ của mục được chọn */
+}
+
+/* Thay đổi màu nền khi di chuột qua mục menu */
+.custom-menu .ant-menu-item:hover {
+    background-color: #e6f7ff !important;
+    /* Màu nền khi hover qua mục menu */
+}
+
+/* Thay đổi màu chữ của các mục menu thông thường */
+.custom-menu .ant-menu-item {
+    color: #000;
+    /* Màu chữ của mục menu không được chọn */
     margin: 15px 0;
     /* Tăng khoảng cách giữa các item */
 }
 
+/* Loại bỏ đường gạch chân mặc định */
 .custom-menu .ant-menu-item::after {
     border-bottom: none;
-    /* Loại bỏ đường gạch chân mặc định */
 }

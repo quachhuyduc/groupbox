@@ -1,28 +1,44 @@
 import React, { useState, useRef } from 'react';
 import { SendOutlined, UploadOutlined, AudioOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Input, Button, Upload, message, Card } from 'antd';
+import { createComment } from '../../api/api';
+import { useParams } from 'react-router-dom';
 
-const MyComment = ({ addComment }) => {
+const MyComment = ({ addComment, titleName, avatar }) => {
+    const { taskId } = useParams();
     const [comment, setComment] = useState('');
     const [fileList, setFileList] = useState([]);
     const [recording, setRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
     const [audioURL, setAudioURL] = useState('');
 
-    const handleSend = () => {
+    const handleSend = async () => {
+        const userId = localStorage.getItem('userId');
         if (comment.trim() !== '' || fileList.length > 0 || audioURL) {
             const newComment = {
-                title: 'New Comment Title',
-                userName: 'Current User',
+                user: userId,
+                task: taskId,
                 content: comment,
-                avatar: 'https://via.placeholder.com/50',
-                files: fileList,
+                files: fileList.map(file => file.name),
                 audio: audioURL,
             };
-            addComment(newComment);
-            setComment('');
-            setFileList([]);
-            setAudioURL('');
+            try {
+                console.log('Sending comment:', newComment);
+                const response = await createComment(newComment);
+                console.log('Comment response:', response);
+                if (response.status === 'OK') {
+                    addComment(response.data);
+                    setComment('');
+                    setFileList([]);
+                    setAudioURL('');
+                    message.success('Comment sent successfully.');
+                } else {
+                    message.error('Failed to send comment: ' + response.message);
+                }
+            } catch (error) {
+                console.error('Error sending comment:', error);
+                message.error('Failed to send comment: ' + error.message);
+            }
         } else {
             message.error('Please add a comment, upload a file, or record audio.');
         }
@@ -30,6 +46,7 @@ const MyComment = ({ addComment }) => {
 
     const handleUploadChange = ({ fileList }) => {
         setFileList(fileList);
+        console.log('File list updated:', fileList);
     };
 
     const startRecording = () => {
@@ -46,7 +63,7 @@ const MyComment = ({ addComment }) => {
                 mediaRecorderRef.current.start();
                 setRecording(true);
             }).catch(error => {
-                console.error('Error accessing microphone: ', error);
+                console.error('Error accessing microphone:', error);
                 message.error('Microphone access denied.');
             });
         }
@@ -67,13 +84,12 @@ const MyComment = ({ addComment }) => {
         <Card style={{ margin: '10px 0' }}>
             <div style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
                 <img
-                    src='https://via.placeholder.com/50'
+                    src={avatar}
                     alt='User Avatar'
                     style={{ borderRadius: '50%', width: '50px', height: '50px', marginRight: '10px' }}
                 />
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginRight: '10px' }}>
-                    <div style={{ fontWeight: 'bold' }}>Title</div>
-                    <div style={{ fontWeight: 'bold' }}>User Name</div>
+                    <div style={{ fontWeight: 'bold' }}>{titleName}</div>
                 </div>
                 <Input
                     style={{ flex: 3, marginRight: '10px' }}
