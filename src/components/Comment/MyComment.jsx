@@ -3,6 +3,7 @@ import { SendOutlined, UploadOutlined, AudioOutlined, DeleteOutlined } from '@an
 import { Input, Button, Upload, message, Card } from 'antd';
 import { createComment } from '../../api/api';
 import { useParams } from 'react-router-dom';
+import TextArea from 'antd/es/input/TextArea';
 
 const MyComment = ({ addComment, titleName, avatar }) => {
     const { taskId } = useParams();
@@ -91,13 +92,12 @@ const MyComment = ({ addComment, titleName, avatar }) => {
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginRight: '10px' }}>
                     <div style={{ fontWeight: 'bold' }}>{titleName}</div>
                 </div>
-                <Input
-                    style={{ flex: 3, marginRight: '10px' }}
+                <TextArea
                     placeholder='Write a comment...'
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 />
-                <Upload
+                {/* <Upload
                     fileList={fileList}
                     onChange={handleUploadChange}
                     beforeUpload={() => false} // Prevent automatic upload
@@ -113,12 +113,12 @@ const MyComment = ({ addComment, titleName, avatar }) => {
                     style={{ marginLeft: '10px' }}
                 >
                     {recording ? 'Stop' : 'Record'}
-                </Button>
+                </Button> */}
                 <Button type='primary' onClick={handleSend} style={{ marginLeft: '10px' }}>
                     <SendOutlined />
                 </Button>
             </div>
-            {audioURL && (
+            {/* {audioURL && (
                 <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
                     <audio controls src={audioURL} style={{ marginRight: '10px', width: '100%' }} />
                     <Button
@@ -129,7 +129,7 @@ const MyComment = ({ addComment, titleName, avatar }) => {
                         Delete
                     </Button>
                 </div>
-            )}
+            )} */}
         </Card>
     );
 };

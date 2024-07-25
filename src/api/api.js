@@ -196,9 +196,7 @@ export const createComment = async (commentData) => {
 export const getCommentsByTaskId = async (taskId) => {
     try {
         const response = await axios.get(`${API_URL_COMMENT}/task/${taskId}`);
-        console.log('Get comments response:', response);
         // Log dữ liệu bình luận để kiểm tra thông tin người dùng
-        console.log('Comments data:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching comments:', error);

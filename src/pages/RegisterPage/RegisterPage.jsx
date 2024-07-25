@@ -15,6 +15,7 @@ const RegisterPage = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/user/register', values);
             message.success('Đăng ký thành công');
+            navigate('/login');
             // Xử lý sau khi đăng ký thành công, ví dụ chuyển hướng trang
         } catch (error) {
             console.error('Lỗi khi đăng ký:', error);
