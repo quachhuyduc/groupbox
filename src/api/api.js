@@ -115,20 +115,20 @@ export const getTaskById = async (taskId) => {
         throw new Error('Không thể lấy task');
     }
 };
-export const getGroupkById = async (groupId) => {
 
+export const getGroupForMember = async (groupId, userId) => {
     try {
-        const response = await axios.get(`${API_URL_GROUP}/${groupId}`);
-        console.log("response", groupId);
+        const response = await axios.post(`${API_URL_GROUP}/${groupId}/member-info`, { userId });
         if (response.data.status === 'OK') {
             return response.data;
         } else {
             throw new Error(response.data.message);
         }
     } catch (error) {
-        throw new Error('Không thể lấy task');
+        throw new Error('Không thể lấy thông tin nhóm');
     }
 };
+
 export const searchTask = async (partialName) => {
     try {
         const response = await axios.get(`${API_URL_TASK}/search/${partialName}`);
@@ -197,6 +197,8 @@ export const getCommentsByTaskId = async (taskId) => {
     try {
         const response = await axios.get(`${API_URL_COMMENT}/task/${taskId}`);
         console.log('Get comments response:', response);
+        // Log dữ liệu bình luận để kiểm tra thông tin người dùng
+        console.log('Comments data:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching comments:', error);
@@ -213,5 +215,50 @@ export const searchUserByName = async (partialName) => {
         }
     } catch (error) {
         throw new Error('Không thể tìm kiếm người dùng.'); // Xử lý lỗi nếu có lỗi trong quá trình gọi API
+    }
+};
+export const addMemberToGroup = async (groupId, userId) => {
+    try {
+        const response = await axios.post(`${API_URL_GROUP}/add-member`, {
+            groupId,
+            userId
+        });
+
+        if (response.data.status === 'OK') {
+            return response.data; // Trả về dữ liệu nếu thành công
+        } else {
+            throw new Error(response.data.message || 'Failed to add member to group'); // Xử lý lỗi nếu có lỗi từ backend
+        }
+    } catch (error) {
+        console.error('Error adding member to group:', error.response ? error.response.data : error.message);
+        throw new Error('Không thể thêm thành viên vào nhóm'); // Xử lý lỗi nếu có lỗi trong quá trình gọi API
+    }
+};
+export const getMemberList = async (groupId) => {
+    try {
+        const response = await axios.get(`${API_URL_GROUP}/${groupId}/members`);
+        return response.data.members; // Đảm bảo trả về danh sách thành viên
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách thành viên:', error);
+        throw error;
+    }
+};
+export const removeMemberFromGroup = async (groupId, userId) => {
+    try {
+
+
+        const response = await axios.post(`${API_URL_GROUP}/remove-member`, {
+            groupId,
+            userId,
+        });
+
+        if (response.data.status === 'OK') {
+            return response.data; // Trả về dữ liệu nếu thành công
+        } else {
+            throw new Error(response.data.message || 'Failed to remove member from group'); // Xử lý lỗi nếu có lỗi từ backend
+        }
+    } catch (error) {
+        console.error('Error removing member from group:', error.response ? error.response.data : error.message);
+        throw new Error('Không thể xóa thành viên khỏi nhóm'); // Xử lý lỗi nếu có lỗi trong quá trình gọi API
     }
 };

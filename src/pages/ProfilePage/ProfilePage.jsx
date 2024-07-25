@@ -11,10 +11,11 @@ import medall from '../../asset/medall.svg';
 import lightning from '../../asset/lightning.svg';
 import search from '../../asset/search.png';
 import invite from '../../asset/invite.webp';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 const { Text } = Typography;
 
 const ProfilePage = () => {
+    const { userId } = useParams();
     const [backgroundImage, setBackgroundImage] = useState(null);
     const [user, setUser] = useState(null);
     const [isEditingImage, setIsEditingImage] = useState(false);
@@ -33,7 +34,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const userId = localStorage.getItem('userId');
+
                 if (userId) {
                     const userData = await getUser(userId);
                     setUser(userData.data);

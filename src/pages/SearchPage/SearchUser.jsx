@@ -39,6 +39,7 @@ const SearchPage = () => {
         setLoading(true);
         try {
             const response = await searchUserByName(value);
+            console.log('sss', response);
             setSuggestions(response.data.map(user => ({
                 value: user.name,
                 key: user._id,
@@ -56,6 +57,7 @@ const SearchPage = () => {
     // Navigate to profile page when a suggestion is selected
     const handleSelect = (value) => {
         const selectedUser = suggestions.find(user => user.value === value);
+        console.log("vvvv", selectedUser.id);
         if (selectedUser) {
             navigate(`/profile/${selectedUser.id}`);
         }

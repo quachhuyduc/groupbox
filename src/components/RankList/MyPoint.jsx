@@ -3,10 +3,6 @@ import { Avatar } from 'antd';
 import React, { useEffect } from 'react';
 const MyPoint = ({ user, rank }) => {
     const points = useSelector(state => state.points.points); // Tổng điểm từ Redux
-
-    console.log('Total Points in MyPoint:', points); // Log tổng điểm
-
-
     if (!user) {
         return <div>Đang tải...</div>;
     }

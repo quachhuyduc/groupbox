@@ -41,7 +41,7 @@ const TaskList = () => {
         <List
             itemLayout="vertical"
             size="large"
-            pagination={{ pageSize: 3 }}
+            pagination={{ pageSize: 5 }}
             dataSource={tasks}
             renderItem={(task) => (
                 <List.Item
@@ -66,7 +66,6 @@ const TaskList = () => {
                 >
                     <List.Item.Meta
                         title={<a href={task.href} style={{ fontSize: '20px', fontWeight: 'bold' }}>{task.nameTask}</a>}
-                        description={task.contentTask}
                     />
                 </List.Item>
             )}

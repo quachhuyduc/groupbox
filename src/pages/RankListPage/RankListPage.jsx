@@ -60,7 +60,7 @@ const RankListPage = () => {
                     </div>
                 </Card>
                 <Card style={{ width: '700px', marginTop: '30px', marginLeft: "100px", border: '2px solid #58CC02' }}>
-                    <div style={{}}>
+                    <div>
                         {!loading && currentUser && (
                             <MyPoint user={currentUser} rank={currentUserRank} />
                         )}
@@ -75,7 +75,7 @@ const RankListPage = () => {
                         </div>
                     </Card>
                     <div style={{ maxHeight: '300px', overflowY: 'auto', marginTop: "20px" }} className="hidden-scrollbar">
-                        <RankListMonth />
+                        <RankList />
                     </div>
                 </Card>
 

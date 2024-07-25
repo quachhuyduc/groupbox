@@ -79,9 +79,6 @@ const DetailTaskPage = () => {
                                 <Descriptions.Item label="Tên Nhiệm Vụ">
                                     {task.data.nameTask}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Nội Dung Nhiệm Vụ">
-                                    {task.data.contentTask}
-                                </Descriptions.Item>
                                 <Descriptions.Item label="Yêu Cầu Nhiệm Vụ">
                                     {task.data.requirements}
                                 </Descriptions.Item>
