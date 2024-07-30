@@ -5,6 +5,7 @@ const API_URL_USER = 'http://localhost:5000/api/user';
 const API_URL_TASK = 'http://localhost:5000/api/task';
 const API_URL_GROUP = 'http://localhost:5000/api/group';
 const API_URL_COMMENT = 'http://localhost:5000/api/comment';
+const API_URL_TOPIC = 'http://localhost:5000/api/topic';
 
 export const loginUser = async (email, password) => {
     try {
@@ -258,5 +259,48 @@ export const removeMemberFromGroup = async (groupId, userId) => {
     } catch (error) {
         console.error('Error removing member from group:', error.response ? error.response.data : error.message);
         throw new Error('Không thể xóa thành viên khỏi nhóm'); // Xử lý lỗi nếu có lỗi trong quá trình gọi API
+    }
+};
+export const getTasksByCategory = async (taskCategory) => {
+    try {
+        const response = await axios.get(`${API_URL_TASK}/category/${taskCategory}`);
+        if (response.data.status === 'OK') {
+            return response.data;
+        } else {
+            throw new Error(response.data.message);
+        }
+    } catch (error) {
+        throw new Error('Không thể lấy task');
+    }
+};
+export const getTopics = async () => {
+    try {
+        const response = await axios.get(`${API_URL_TOPIC}/topics`);
+        // Điều chỉnh theo cấu trúc dữ liệu thực tế từ API
+        if (Array.isArray(response.data)) {
+            return response.data; // Trả về mảng các chủ đề
+        } else {
+            throw new Error("Dữ liệu không hợp lệ");
+        }
+    } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu topics:", error);
+        throw new Error('Không thể lấy dữ liệu chủ đề');
+    }
+};
+
+
+export const getTasksByTopic = async (topicId) => {
+    try {
+        // Gọi API để lấy danh sách các nhiệm vụ của chủ đề
+        const response = await axios.get(`${API_URL_TOPIC}/topics/${topicId}/tasks`);
+
+        // Kiểm tra trạng thái của phản hồi
+        if (response.data.status === 'OK') {
+            return response.data; // Trả về toàn bộ dữ liệu, vì bạn đang sử dụng response.data.tasks
+        } else {
+            throw new Error(response.data.message); // Ném lỗi nếu có thông báo lỗi từ server
+        }
+    } catch (error) {
+        throw new Error('Unable to fetch tasks by topicId: ' + error.message); // Thêm thông tin lỗi vào thông báo
     }
 };

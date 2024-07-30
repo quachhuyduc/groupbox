@@ -82,6 +82,9 @@ const DetailTaskPage = () => {
                                 <Descriptions.Item label="Yêu Cầu Nhiệm Vụ">
                                     {task.data.requirements}
                                 </Descriptions.Item>
+                                <Descriptions.Item label="Loại">
+                                    {task.data.category}
+                                </Descriptions.Item>
                                 <Descriptions.Item label="Số Điểm Có Thể Nhận">
                                     {task.data.totalPoints}
                                 </Descriptions.Item>

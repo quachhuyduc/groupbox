@@ -11,6 +11,7 @@ import DetailTaskPage from '../pages/DetailPage/DetailTaskPage';
 import GroupPage from '../pages/GroupPage/GroupPage';
 import DetailTaskDoPage from '../pages/DetailPage/DetailTaskDoPage';
 import SearchUser from '../pages/SearchPage/SearchUser';
+import ChallengePage from '../pages/ChallengePage/ChallengePage';
 
 const routes = [
     {
@@ -57,6 +58,10 @@ const routes = [
     {
         path: '/search',
         page: SearchPage
+    },
+    {
+        path: '/challenge',
+        page: ChallengePage
     },
     {
         path: '*',
