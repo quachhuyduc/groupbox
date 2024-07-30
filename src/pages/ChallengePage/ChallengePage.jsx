@@ -25,7 +25,7 @@ const ChallengePage = () => {
         <div className="home-page-container" style={{ display: 'flex' }}>
             <MenuComponent mode="inline" selectedKey="9" />
             <div style={{ padding: "20px" }}>
-                <Title>Thách Thức Học Tập</Title>
+                <Title>Thử Thách Học Tập</Title>
                 {!selectedChallenge ? (
                     <ChallengeList onSelect={handleSelectChallenge} />
                 ) : (

@@ -7,11 +7,11 @@ const { Paragraph } = Typography;
 const challenges = [
     {
         id: 1,
-        category: "Thách Thức Học Từ Vựng",
+        category: "Thử thách Học Từ Vựng",
         challenges: [
             {
                 id: 1,
-                title: "Thách Thức Học Từ Vựng 7 Ngày",
+                title: "Thử thách Học Từ Vựng 7 Ngày",
                 description: "Nâng cao vốn từ vựng với 50 từ mới mỗi ngày.",
                 duration: "7 ngày",
                 reward: "100 điểm, Huy hiệu từ vựng",
@@ -24,7 +24,7 @@ const challenges = [
             },
             {
                 id: 2,
-                title: "Thách Thức Học Từ Vựng 14 Ngày",
+                title: "Thử thách Học Từ Vựng 14 Ngày",
                 description: "Nâng cao vốn từ vựng với 50 từ mới mỗi ngày.",
                 duration: "14 ngày",
                 reward: "200 điểm, Huy hiệu từ vựng",
@@ -37,7 +37,7 @@ const challenges = [
             },
             {
                 id: 3,
-                title: "Thách Thức Học Từ Vựng 30 Ngày",
+                title: "Thử thách Học Từ Vựng 30 Ngày",
                 description: "Nâng cao vốn từ vựng với 50 từ mới mỗi ngày.",
                 duration: "30 ngày",
                 reward: "300 điểm, Huy hiệu từ vựng",
@@ -52,11 +52,11 @@ const challenges = [
     },
     {
         id: 2,
-        category: "Thách Thức Đọc Hiểu",
+        category: "Thử thách Đọc Hiểu",
         challenges: [
             {
                 id: 4,
-                title: "Thách Thức Đọc Hiểu 7 Ngày",
+                title: "Thử thách Đọc Hiểu 7 Ngày",
                 description: "Cải thiện kỹ năng đọc hiểu với 30 phút mỗi ngày.",
                 duration: "7 ngày",
                 reward: "100 điểm, Huy hiệu đọc hiểu",
@@ -69,7 +69,7 @@ const challenges = [
             },
             {
                 id: 5,
-                title: "Thách Thức Đọc Hiểu 14 Ngày",
+                title: "Thử thách Đọc Hiểu 14 Ngày",
                 description: "Cải thiện kỹ năng đọc hiểu với 30 phút mỗi ngày.",
                 duration: "14 ngày",
                 reward: "200 điểm, Huy hiệu đọc hiểu",
@@ -82,7 +82,7 @@ const challenges = [
             },
             {
                 id: 6,
-                title: "Thách Thức Đọc Hiểu 30 Ngày",
+                title: "Thử thách Đọc Hiểu 30 Ngày",
                 description: "Cải thiện kỹ năng đọc hiểu với 30 phút mỗi ngày.",
                 duration: "30 ngày",
                 reward: "300 điểm, Huy hiệu đọc hiểu",

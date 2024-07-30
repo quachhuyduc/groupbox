@@ -7,6 +7,7 @@ import TextArea from 'antd/es/input/TextArea';
 
 const MyComment = ({ addComment, titleName, avatar }) => {
     const { taskId } = useParams();
+    const { groupId } = useParams();
     const [comment, setComment] = useState('');
     const [fileList, setFileList] = useState([]);
     const [recording, setRecording] = useState(false);
@@ -20,6 +21,7 @@ const MyComment = ({ addComment, titleName, avatar }) => {
                 user: userId,
                 task: taskId,
                 content: comment,
+                group: groupId,
                 files: fileList.map(file => file.name),
                 audio: audioURL,
             };

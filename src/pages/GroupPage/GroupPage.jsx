@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, List, Avatar, Tooltip, Modal, Input, message, Spin } from 'antd';
+import { Card, Button, List, Avatar, Tooltip, Modal, Input, message, Spin, Image } from 'antd';
 import MenuComponent from '../../components/Menu/MenuComponent';
-import { getGroupForMember, searchUserByName, addMemberToGroup, getUser } from '../../api/api';
+import { getGroupForMember, searchUserByName, addMemberToGroup, getUser, getCommentsByGroupId, createComment } from '../../api/api';
 import { useParams } from 'react-router-dom';
 import { fetchMembers } from '../../redux/slides/memberSlice';
 import { UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import RankGroupList from '../../components/RankList/RankGroupList';
 import { useDispatch, useSelector } from 'react-redux';
 import MyComment from '../../components/Comment/MyComment';
-import InformationMember from '../../components/RankList/InformationMember';
+import trophy from '../../asset/trophy.webp';
+import CommentList from '../../components/Comment/CommentList';
 const GroupPage = () => {
     const { groupId } = useParams();
     const [group, setGroup] = useState(null);
@@ -18,7 +19,7 @@ const GroupPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const { members } = useSelector((state) => state.members);
     const [currentUser, setCurrentUser] = useState(null);
-    const [userRank, setUserRank] = useState(null);
+    const [currentUserRank, setCurrentUserRank] = useState(null);
     const [isMember, setIsMember] = useState(false);
 
     const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const GroupPage = () => {
                         // Tạo một bản sao của mảng members để sắp xếp
                         const sortedMembers = [...members].sort((a, b) => b.pointday - a.pointday);
                         const rank = sortedMembers.findIndex(member => member._id === userData._id) + 1;
-                        setUserRank(rank);
+                        setCurrentUserRank(rank);
                     }
                 }
             } catch (error) {
@@ -106,9 +107,24 @@ const GroupPage = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    const fetchComments = async () => {
+        try {
+            const response = await getCommentsByGroupId(groupId);
+            console.log('response', response);
+            setComments(response); // Cập nhật danh sách bình luận
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    };
 
-    const addComment = (comment) => {
-        setComments([comment, ...comments]);
+    const addComment = async (comment) => {
+        try {
+            setComments([comment, ...comments]);
+            await fetchComments();
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+
     };
 
     if (!currentUser) {
@@ -141,7 +157,7 @@ const GroupPage = () => {
                                     padding: '10px',
                                     borderRadius: '5px'
                                 }}>
-                                    {group ? group.name : 'Loading...'}
+                                    Group Mission
                                 </div>
                             }
                             bordered={false}
@@ -157,10 +173,25 @@ const GroupPage = () => {
                                     color: '#fff', // Màu chữ trắng
                                     padding: '10px', // Khoảng cách giữa chữ và viền
                                     borderRadius: '5px' // Bo góc cho nền
-                                }}>Bảng Xếp Hạng</h2>
-                                <RankGroupList />
+                                }}>Penguin Research Project</h2>
+                                <p style={{
+                                    fontSize: '16px',
+                                    fontWeight: 'normal',
+                                    textAlign: 'center', // Căn giữa mô tả
+                                    backgroundColor: '#f0f0f0', // Màu nền nhẹ
+                                    color: '#333', // Màu chữ
+                                    padding: '10px', // Khoảng cách giữa chữ và viền
+                                    borderRadius: '5px' // Bo góc cho nền
+                                }}>
+                                    {/* Thay thế văn bản dưới đây bằng `task.requirements` */}
+                                    Members must work together to find information, discuss and synthesize it into a presentation in English.
+                                </p>
                             </div>
+
                         </Card>
+                        <div style={{ width: '800px', marginTop: '30px', marginLeft: "100px" }}>
+                            <CommentList comments={comments} />
+                        </div>
                         <div style={{ width: '800px', marginTop: '30px', marginLeft: "100px" }}>
                             <MyComment
                                 addComment={addComment}
@@ -173,14 +204,6 @@ const GroupPage = () => {
 
                     <div style={{ flex: 1, padding: '20px' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Card
-                                className="hidden-scrollbar"
-                                style={{ width: '400px', marginLeft: "50px", marginTop: '20px', border: '2px solid #58CC02', height: '300px', overflowY: 'auto' }}
-                            >
-
-                                <InformationMember />
-
-                            </Card>
                             <Card
                                 style={{ width: '400px', marginLeft: "50px", marginTop: '20px', border: '2px solid #58CC02', padding: '16px', height: '200px' }}
                             >
@@ -206,6 +229,49 @@ const GroupPage = () => {
                                     )}
                                 </div>
                             </Card>
+                            <Card
+                                className="hidden-scrollbar"
+                                style={{ width: '400px', marginLeft: "50px", marginTop: '20px', border: '2px solid #58CC02', height: '300px', overflowY: 'auto' }}
+                            >
+                                <RankGroupList />
+                            </Card>
+                            <Card
+                                style={{
+                                    width: '400px',
+                                    marginLeft: '50px',
+                                    marginTop: '20px',
+                                    border: '2px solid #58CC02',
+                                    padding: '16px',
+                                    height: '330px',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <div style={{ fontSize: '22px', fontWeight: '700' }}>
+                                        Xếp hạng của tôi : {currentUserRank || '-'}
+                                    </div>
+                                </div>
+                                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '20px', fontWeight: '500' }}>
+                                        {currentUserRank === 1
+                                            ? 'Xuất sắc !!!!'
+                                            : currentUserRank === 2
+                                                ? 'Tuyệt vời !!!'
+                                                : currentUserRank === 3
+                                                    ? 'Đẳng cấp!!'
+                                                    : 'Cố gắng hơn nữa để được Top 3 nào !!'}
+                                    </div>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <Image src={trophy} style={{ height: 180 }} />
+                                    </div>
+                                </div>
+                            </Card>
+
 
                         </div>
                     </div>

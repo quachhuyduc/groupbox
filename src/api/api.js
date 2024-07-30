@@ -204,6 +204,16 @@ export const getCommentsByTaskId = async (taskId) => {
         throw new Error('Error fetching comments');
     }
 };
+export const getCommentsByGroupId = async (groupId) => {
+    try {
+        const response = await axios.get(`${API_URL_COMMENT}/group/${groupId}`);
+        // Log dữ liệu bình luận để kiểm tra thông tin người dùng
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        throw new Error('Error fetching comments');
+    }
+};
 export const searchUserByName = async (partialName) => {
     try {
         const response = await axios.get(`${API_URL_USER}/search/${partialName}`);
@@ -275,7 +285,7 @@ export const getTasksByCategory = async (taskCategory) => {
 };
 export const getTopics = async () => {
     try {
-        const response = await axios.get(`${API_URL_TOPIC}/topics`);
+        const response = await axios.get(`${API_URL_TOPIC}/listTopics`);
         // Điều chỉnh theo cấu trúc dữ liệu thực tế từ API
         if (Array.isArray(response.data)) {
             return response.data; // Trả về mảng các chủ đề

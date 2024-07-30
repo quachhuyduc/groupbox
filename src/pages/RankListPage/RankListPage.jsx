@@ -4,7 +4,6 @@ import { Card, Image } from 'antd';
 import trophy from '../../asset/trophy.webp'; // Import hình ảnh trophy
 import RankList from '../../components/RankList/RankList';
 import { CrownOutlined } from '@ant-design/icons';
-import RankListMonth from '../../components/RankList/RankListMonth';
 import MyPoint from '../../components/RankList/MyPoint';
 import { getUser, getUserList } from '../../api/api.js';
 

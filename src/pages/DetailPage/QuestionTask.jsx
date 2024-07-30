@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addPoints, setTaskStatus, updateUserPoints } from '../../redux/slides/pointSlice';
 
 const QuestionTask = () => {
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState([]); // Khởi tạo như mảng
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState(null);
@@ -19,7 +19,7 @@ const QuestionTask = () => {
         const fetchQuestionsAndAnswers = async () => {
             try {
                 const response = await getTaskById(taskId);
-                if (response.data && response.data.data.questions) {
+                if (response.data && Array.isArray(response.data.data.questions)) {
                     setQuestions(response.data.data.questions);
 
                     // Kiểm tra trạng thái nhiệm vụ của người dùng trong Local Storage
@@ -32,13 +32,13 @@ const QuestionTask = () => {
                         setResult(null);
                     }
                 } else {
-                    setQuestions([]);
+                    setQuestions([]); // Đảm bảo questions là mảng
                     setTaskCompleted(false);
                     setResult(null);
                 }
             } catch (error) {
                 console.error('Lỗi khi lấy câu hỏi và câu trả lời:', error);
-                setQuestions([]);
+                setQuestions([]); // Đảm bảo questions là mảng
                 setTaskCompleted(false);
                 setResult(null);
             } finally {
@@ -98,7 +98,7 @@ const QuestionTask = () => {
                     {questions.map((question, index) => (
                         <div key={index} style={{ marginBottom: '20px' }}>
                             <div style={{ fontWeight: 'bold' }}>{question.question}</div>
-                            {question.answers.map((answer, idx) => (
+                            {Array.isArray(question.answers) && question.answers.map((answer, idx) => (
                                 <div key={idx} style={{ marginLeft: '20px' }}>
                                     <input
                                         type="radio"

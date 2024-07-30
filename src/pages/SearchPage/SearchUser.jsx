@@ -57,9 +57,8 @@ const SearchPage = () => {
     // Navigate to profile page when a suggestion is selected
     const handleSelect = (value) => {
         const selectedUser = suggestions.find(user => user.value === value);
-        console.log("vvvv", selectedUser.id);
         if (selectedUser) {
-            navigate(`/profile/${selectedUser.id}`);
+            navigate(`/user/search/${selectedUser.id}`);
         }
     };
 

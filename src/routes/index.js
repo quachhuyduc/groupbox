@@ -12,6 +12,7 @@ import GroupPage from '../pages/GroupPage/GroupPage';
 import DetailTaskDoPage from '../pages/DetailPage/DetailTaskDoPage';
 import SearchUser from '../pages/SearchPage/SearchUser';
 import ChallengePage from '../pages/ChallengePage/ChallengePage';
+import ResultSearchUserPage from '../pages/SearchPage/ResultSearchUserPage';
 
 const routes = [
     {
@@ -62,6 +63,10 @@ const routes = [
     {
         path: '/challenge',
         page: ChallengePage
+    },
+    {
+        path: '/user/search/:userId',
+        page: ResultSearchUserPage
     },
     {
         path: '*',

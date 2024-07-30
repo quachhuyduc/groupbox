@@ -15,14 +15,13 @@ const items = [
                 type: 'group',
                 children: [
                     { key: '1', label: 'Nhiệm vụ hôm nay' },
-                    { key: '2', label: 'Bảng Xếp Hạng' },
                     { key: '3', label: 'Danh sách nhiệm vụ' },
-                    { key: '4', label: 'Profile' },
-                    { key: '5', label: 'Cài đặt' },
-                    { key: '6', label: 'Đăng xuất' },
+
                     { key: '7', label: 'Nhóm của tôi' },
                     { key: '8', label: 'Kết nối với bạn bè' },
                     { key: '9', label: 'Thử thách' },
+                    { key: '4', label: 'Profile' },
+                    { key: '6', label: 'Đăng xuất' },
                 ],
             },
         ],

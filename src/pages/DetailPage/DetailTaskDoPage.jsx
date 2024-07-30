@@ -78,6 +78,9 @@ const DetailTaskDoPage = () => {
     const isImage = (url) => {
         return url && (url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.png') || url.endsWith('.gif'));
     };
+    const isYouTubeUrl = (url) => {
+        return url && url.includes('youtube.com/watch') || url.includes('youtu.be');
+    };
     const getPlayerHeight = (url) => {
         if (url.endsWith('.mp4')) {
             return '50%'; // Chiều cao cho video
@@ -98,21 +101,31 @@ const DetailTaskDoPage = () => {
                 </Card>
                 <Card style={{ width: '1200px', marginLeft: "100px", textAlign: 'center', fontWeight: "500", color: "black" }}>
                     <div>
-                        {isVideoOrAudio(task.data.contentTask) ? (
+                        {isYouTubeUrl(task?.data?.contentTask) ? (
+                            <iframe
+                                width="100%"
+                                height="500px"
+                                src={`https://www.youtube.com/embed/${task?.data?.contentTask.split('v=')[1]?.split('&')[0]}`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                title="YouTube video player"
+                            />
+                        ) : isVideoOrAudio(task?.data?.contentTask) ? (
                             <ReactPlayer
-                                url={task.data.contentTask}
+                                url={task?.data?.contentTask}
                                 controls
                                 width="100%"
-                                height={getPlayerHeight(task.data.contentTask)}
+                                height={getPlayerHeight(task?.data?.contentTask)}
                             />
-                        ) : isImage(task.data.contentTask) ? (
+                        ) : isImage(task?.data?.contentTask) ? (
                             <img
-                                src={task.data.contentTask}
+                                src={task?.data?.contentTask}
                                 alt="Task content"
                                 style={{ width: '100%', maxHeight: '500px' }}
                             />
                         ) : (
-                            <p>{task.data.contentTask}</p>
+                            <p>{task?.data?.contentTask}</p>
                         )}
                     </div>
                 </Card>
